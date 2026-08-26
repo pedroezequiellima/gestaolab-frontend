@@ -34,7 +34,7 @@ export default function AuditoriaPontoPage() {
     return new Intl.DateTimeFormat('pt-BR', {
       day: '2-digit', month: '2-digit', year: 'numeric',
       hour: '2-digit', minute: '2-digit', second: '2-digit'
-    }).format(new Date(dataString));
+    }).format(dataString ? new Date(dataString) : new Date());
   };
 
   const formatarTipo = (tipo: TipoPonto) => {
@@ -63,7 +63,7 @@ export default function AuditoriaPontoPage() {
       const nome = `"${reg.usuario?.nome || 'Desconhecido'}"`;
       const email = `"${reg.usuario?.email || 'N/A'}"`;
       const acao = `"${formatarTipo(reg.tipo)}"`;
-      const dataHora = `"${formatarDataHora(reg.criadoEm)}"`;
+      const dataHora = `"${formatarDataHora(reg.timestamp)}"`;
       return `${nome},${email},${acao},${dataHora}`;
     }).join('\n');
 
@@ -162,7 +162,7 @@ export default function AuditoriaPontoPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right font-mono text-slate-400">
-                      {formatarDataHora(registro.criadoEm)}
+                      {formatarDataHora(registro.timestamp)}
                     </td>
                   </tr>
                 ))

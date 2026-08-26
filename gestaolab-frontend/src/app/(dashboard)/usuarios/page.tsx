@@ -99,11 +99,11 @@ export default function UsuariosPage() {
     return badges[role];
   };
 
-  const usuariosFiltrados = usuarios.filter(u => {
+  const usuariosFiltrados = Array.isArray(usuarios) ? usuarios.filter(u => {
     const matchBusca = u.nome.toLowerCase().includes(termoBusca.toLowerCase()) || u.email.toLowerCase().includes(termoBusca.toLowerCase());
     const matchRole = filtroRole === 'TODOS' || u.role === filtroRole;
     return matchBusca && matchRole;
-  });
+  }) : [];
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
