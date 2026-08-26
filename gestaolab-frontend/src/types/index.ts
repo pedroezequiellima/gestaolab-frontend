@@ -1,11 +1,18 @@
 // src/types/index.ts
 
-// 1. Enums e Tipos Literais (Garante que só aceitaremos esses valores exatos)
 export type UserRole = 'ADMIN' | 'PORTEIRO' | 'PROFESSOR';
-export type StatusSala = 'DISPONIVEL' | 'OCUPADA' | 'MANUTENCAO';
-export type TipoPonto = 'ENTRADA' | 'SAIDA_INTERVALO' | 'RETORNO_INTERVALO' | 'SAIDA';
 
-// 2. Interface de Sessão (Usada nos Cookies e Contextos)
+// O que vem dentro do token decodificado
+export interface JWTPayload {
+  sub: string;
+  email: string;
+  nome: string;
+  role: UserRole;
+  iat?: number;
+  exp?: number;
+}
+
+// O que salvamos no cookie para o frontend usar
 export interface UserSession {
   id: string;
   email: string;
@@ -13,15 +20,7 @@ export interface UserSession {
   role: UserRole;
 }
 
-// 3. Entidades Espelhadas do Backend
-export interface Usuario {
-  id: string;
-  nome: string;
-  email: string;
-  role: UserRole;
-  ativo: boolean;
-  criadoEm: string;
-}
+export type StatusSala = 'DISPONIVEL' | 'OCUPADA' | 'MANUTENCAO';
 
 export interface Sala {
   id: string;
@@ -32,6 +31,27 @@ export interface Sala {
   status: StatusSala;
 }
 
+export type TipoPonto = 'ENTRADA' | 'SAIDA_INTERVALO' | 'RETORNO_INTERVALO' | 'SAIDA';
+
+export interface RegistroPonto {
+  id: string;
+  usuarioId: string;
+  tipo: TipoPonto;
+  timestamp: string;
+  usuario?: {
+    nome: string;
+    email: string;
+  };
+}
+
+export interface Usuario {
+  id: string;
+  nome: string;
+  email: string;
+  role: UserRole;
+  ativo: boolean;
+}
+
 export interface Alocacao {
   id: string;
   salaId: string;
@@ -40,17 +60,6 @@ export interface Alocacao {
   fimPrevisto: string;
   devolucao: string | null;
   observacao?: string;
-  sala?: Sala; // Trazido pelo Prisma Include
-  professor?: Usuario; // Trazido pelo Prisma Include
-}
-
-export interface RegistroPonto {
-  id: string;
-  usuarioId: string;
-  tipo: TipoPonto;
-  criadoEm: string;
-  usuario?: {
-    nome: string;
-    email: string;
-  };
+  sala?: Sala;
+  professor?: Usuario;
 }

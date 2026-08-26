@@ -49,8 +49,16 @@ export default function PontoPage() {
     }
   };
 
-  const formatarDataHora = (dataString: string) => {
+const formatarDataHora = (dataString: string) => {
+    // 1. Se não vier data, retorna um traço para não quebrar a tela
+    if (!dataString) return '--/--/---- --:--';
+
     const data = new Date(dataString);
+    
+    // 2. Verifica se o valor gerou uma Data Inválida no JavaScript
+    if (isNaN(data.getTime())) return 'Data inválida';
+
+    // 3. Se estiver tudo certo, formata bonitinho
     return new Intl.DateTimeFormat('pt-BR', {
       day: '2-digit',
       month: '2-digit',
@@ -170,7 +178,7 @@ export default function PontoPage() {
                       {formatarTipo(registro.tipo)}
                     </td>
                     <td className="px-6 py-4">
-                      {formatarDataHora(registro.criadoEm)}
+                      {formatarDataHora(registro.timestamp)}
                     </td>
                   </tr>
                 ))

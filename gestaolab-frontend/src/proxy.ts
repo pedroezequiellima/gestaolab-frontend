@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // 1. Extrai os cookies de segurança da requisição
   const token = request.cookies.get('gestaolab_token')?.value;
   const userCookie = request.cookies.get('gestaolab_user')?.value;
